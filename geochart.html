@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin - Charts</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+  integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+  crossorigin=""></script>
+
+  
+
+  
+
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="index.html">Map Visualization</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item active">
+        <a class="nav-link dropdown-toggle" href="#submenu" data-toggle="collapse" aria-expanded="false"
+          class="dropdown-toggle">
+          <i class="fas fa-book"></i>
+          <span>SIW005</span>
+        </a>
+        <ul class="collapse" id="submenu">
+          <li class="nav-item">
+            <a class="nav-link" href="leaflet.html">
+              <i class="fas fa-map-marked"></i>
+              <span>Leaflet Maps</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="geochart.html">
+              <i class="fas fa-globe-americas"></i>
+              <span>Geochart</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="D3.html">
+              <i class="fab fa-dyalog"></i>
+              <span>D3 Maps</span></a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Geochart</li>
+        </ol>
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+            <div id="map" style="width: 100%; height: 600px;"></div>
+          
+        </div>
+
+       
+
+        <p class="small text-center text-muted my-5">
+          <em>More maps coming soon...</em>
+        </p>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  
+
+  <!-- Custom scripts for all pages-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var jsonDataString = $.ajax({
+                url: "http://emotional-apps.com/apis/meit/stats/getdata.php?test=1&gender=all&age=all&begindate=2000-01-01&enddate=2014-11-24",
+                dataType: "json",
+                async: false
+            }).responseText;
+
+            var jsonDataObject = JSON.parse(jsonDataString);
+
+            var jsonDataTableFormat = '{"cols": [ {"id":"","label":"Country","pattern":"","type":"string"},{"id":"","label":"Score","pattern":"","type":"number"}],"rows": [';
+
+            jQuery.each(jsonDataObject, function () {
+                // console.log(jsonDataObject);
+                jsonDataTableFormat += '{"c":[{"v":"' + this.country + '","f":null},{"v":' + this.score_average + ',"f":null}]},';
+
+                //console.log("c:"+this.country+",avg:"+this.score_average);
+            });
+
+            jsonDataTableFormat += '{"c":[{"v":"","f":null},{"v":"","f":null}]}]}';
+           //console.log(jsonDataTableFormat);
+
+            var jsonDataArray = JSON.parse(jsonDataTableFormat);
+
+            //console.log(jsonDataArray);
+
+
+            var data = new google.visualization.DataTable(jsonDataArray);
+
+            var options = {
+              region: "world",
+                dataMode:"regions",
+                showZoomOut:"true",
+                backgroundColor: "#867979",
+                colors: ['#ffffff', '#800000']  
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('map'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</body>
+
+</html>

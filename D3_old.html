@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>D3: Loading GeoJSON data and generating SVG paths</title>
+	<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<style type="text/css">
+		#map_title {
+			font: caption;
+			color: white;
+			background-color: #c47575;
+			width: 100%;
+			text-align: center;
+		}
+
+		.d3-tip {
+			line-height: 1;
+			padding: 12px;
+			background: rgba(43, 43, 43, 0.8);
+			color: #fff;
+			border-radius: 2px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map_title"> Choropleth Map showing the Average Score of Countries </div>
+	<p></p>
+	<div id="d3_map" style="background-color:#b3b3b3 "></div>
+
+	<script type="text/javascript">
+
+		//Width and height
+		var w = window.innerWidth;
+		var h = window.innerHeight;
+
+		//Quantize color for choropleth map
+		var color = d3.scale.quantize()
+			.range(['#faf4f4', '#f2dfdf', '#e8caca', '#e0b4b4', '#d69f9f', '#ce8a8a', '#c47575', '#bc5f5f', '#b24a4a', '#a52a2a']);
+
+		//Define map projection
+		var projection = d3.geo.mercator()
+			.translate([w / 2, h / 2])
+			.scale([115]);
+
+
+		//Define path generator
+		var path = d3.geo.path().projection(projection);
+
+
+		//Create SVG element
+		var svg = d3.select("#d3_map")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		//tooltip for displaying information on mouse hover
+		var tip = d3.tip()
+			.attr('class', 'd3-tip')
+			.offset([-10, 0])
+			.html(function (d) {
+				return "<span style='color:#f4cb42'>" +"Country: " + d.properties.name + "<br />"+"Avg_Score: "+ d.properties.value+"</span>";
+			})
+		svg.call(tip);
+
+		//Load data
+		d3.json("http://emotional-apps.com/apis/meit/stats/getdata.php?test=1&gender=all&age=all&begindate=2000-01-01&enddate=2019-01-04", function (data) {
+			console.log(data);
+
+			//Set color domain INPUT
+			color.domain([
+				d3.min(data, function (d) {
+					return parseFloat(d.score_average);
+				}),
+				d3.max(data, function (d) {
+					return parseFloat(d.score_average);
+				})
+			]);
+
+
+			//Load in GeoJSON data
+			d3.json("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", function (json) {
+				//Merge the ag. data and GeoJSON
+				//Loop through once for each ag. data value
+				for (var i = 0; i < data.length; i++) {
+
+					//Grab state name
+					var dataState = data[i].iso3;
+
+					//Grab data value, and convert from string to float
+					var dataValue = parseFloat(data[i].score_average);
+
+					//Find the corresponding state inside the GeoJSON
+					for (var j = 0; j < json.features.length; j++) {
+
+						var jsonState = json.features[j].id;
+
+						if (dataState == jsonState) {
+
+							//Copy the data value into the JSON
+							json.features[j].properties.value = dataValue;
+
+							//Stop looking through the JSON
+							break;
+
+						}
+					}
+				}
+
+				//Bind data and create one path per GeoJSON feature
+				svg.selectAll("path")
+					.data(json.features)
+					.enter()
+					.append("path")
+					.attr("d", path)
+					.style("fill", function (d) {
+						var value = d.properties.value;
+
+						if (value) {
+
+							return color(value);
+						} else
+							return "#e1e8e4";
+					})
+					
+					.on("mouseover", tip.show)
+					.on("mouseout", tip.hide)
+
+			});
+		});
+
+	</script>
+</body>
+
+</html>

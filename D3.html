@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin - Charts</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Page level plugin CSS-->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin="" />
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+    crossorigin=""></script>
+
+
+  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <style type="text/css">
+    .d3-tip {
+      line-height: 1;
+      padding: 12px;
+      background: rgba(43, 43, 43, 0.8);
+      color: #fff;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+
+  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+    <a class="navbar-brand mr-1" href="index.html">Map Visualization</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
+          aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </nav>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item active">
+        <a class="nav-link dropdown-toggle" href="#submenu" data-toggle="collapse" aria-expanded="false"
+          class="dropdown-toggle">
+          <i class="fas fa-book"></i>
+          <span>SIW005</span>
+        </a>
+        <ul class="collapse" id="submenu">
+          <li class="nav-item">
+            <a class="nav-link" href="leaflet.html">
+              <i class="fas fa-map-marked"></i>
+              <span>Leaflet Maps</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="geochart.html">
+              <i class="fas fa-globe-americas"></i>
+              <span>Geochart</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="D3.html">
+              <i class="fab fa-dyalog"></i>
+              <span>D3 Maps</span></a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">D3</li>
+        </ol>
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+          <div id="map" style="width: 100%; height: 600px;"></div>
+
+        </div>
+
+
+
+        <p class="small text-center text-muted my-5">
+          <em>More maps coming soon...</em>
+        </p>
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+      <footer class="sticky-footer">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright © Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin.min.js"></script>
+
+  <script type="text/javascript">
+
+    //Width and height
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+
+    //Quantize color for choropleth map
+    var color = d3.scale.quantize()
+      .range(['#faf4f4', '#f2dfdf', '#e8caca', '#e0b4b4', '#d69f9f', '#ce8a8a', '#c47575', '#bc5f5f', '#b24a4a', '#a52a2a']);
+
+    //Define map projection
+    var projection = d3.geo.mercator()
+      .translate([w / 2, h / 2])
+      .scale([115]);
+
+
+    //Define path generator
+    var path = d3.geo.path().projection(projection);
+
+
+    //Create SVG element
+    var svg = d3.select("#map")
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h);
+
+    //tooltip for displaying information on mouse hover
+    var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .offset([-10, 0])
+      .html(function (d) {
+        return "<span style='color:#f4cb42'>" + "Country: " + d.properties.name + "<br />" + "Avg_Score: " + d.properties.value + "</span>";
+      })
+    svg.call(tip);
+
+    //Load data
+    d3.json("http://emotional-apps.com/apis/meit/stats/getdata.php?test=1&gender=all&age=all&begindate=2000-01-01&enddate=2019-01-04", function (data) {
+      //console.log(data);
+
+      //Set color domain INPUT
+      color.domain([
+        d3.min(data, function (d) {
+          return parseFloat(d.score_average);
+        }),
+        d3.max(data, function (d) {
+          return parseFloat(d.score_average);
+        })
+      ]);
+
+
+      //Load in GeoJSON data
+      d3.json("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", function (json) {
+        //Merge the ag. data and GeoJSON
+        //Loop through once for each ag. data value
+        for (var i = 0; i < data.length; i++) {
+
+          //Grab state name
+          var dataState = data[i].iso3;
+
+          //Grab data value, and convert from string to float
+          var dataValue = parseFloat(data[i].score_average);
+
+          //Find the corresponding state inside the GeoJSON
+          for (var j = 0; j < json.features.length; j++) {
+
+            var jsonState = json.features[j].id;
+
+            if (dataState == jsonState) {
+
+              //Copy the data value into the JSON
+              json.features[j].properties.value = dataValue;
+
+              //Stop looking through the JSON
+              break;
+
+            }
+          }
+        }
+
+        //Bind data and create one path per GeoJSON feature
+        svg.selectAll("path")
+          .data(json.features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .style("fill", function (d) {
+            var value = d.properties.value;
+
+            if (value) {
+
+              return color(value);
+            } else
+              return "#e1e8e4";
+          })
+
+          .on("mouseover", tip.show)
+          .on("mouseout", tip.hide)
+
+      });
+    });
+
+  </script>
+</body>
+
+</html>
